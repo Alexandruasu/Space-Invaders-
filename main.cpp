@@ -4,56 +4,62 @@
 #include <chrono>
 #include <thread>
 
+#include "Player/Player.h"
+#include "EnemyRow/EnemyRow.h"
+
 #ifdef __linux__
 #include <X11/Xlib.h>
 #endif
 
-class SomeClass {
-public:
-    explicit SomeClass(int) {}
-};
-
-SomeClass *getC() {
-    return new SomeClass{2};
-}
-
 int main() {
-    #ifdef __linux__
+#ifdef __linux__
     XInitThreads();
-    #endif
-
-    SomeClass *c = getC();
-    std::cout << c << "\n";
-    delete c;
+#endif
 
     sf::RenderWindow window;
-    // NOTE: sync with env variable APP_WINDOW from .github/workflows/cmake.yml:30
-    window.create(sf::VideoMode({800, 700}), "My Window", sf::Style::Default);
-    window.setVerticalSyncEnabled(true);
-    //window.setFramerateLimit(60);
+    window.create(sf::VideoMode(800, 600), "Space Invaders", sf::Style::Default);
+    // window.setVerticalSyncEnabled(true);
+    window.setFramerateLimit(60);
+
+    Player player = Player();
+    EnemyRow enemyRow1 = EnemyRow(20.0f);
 
     while(window.isOpen()) {
-        sf::Event e;
+        sf::Event e = sf::Event();
         while(window.pollEvent(e)) {
             switch(e.type) {
-            case sf::Event::Closed:
-                window.close();
-                break;
-            case sf::Event::Resized:
-                std::cout << "New width: " << window.getSize().x << '\n'
-                          << "New height: " << window.getSize().y << '\n';
-                break;
-            case sf::Event::KeyPressed:
-                std::cout << "Received key " << (e.key.code == sf::Keyboard::X ? "X" : "(other)") << "\n";
-                break;
-            default:
-                break;
+                case sf::Event::Closed:
+                    window.close();
+                    break;
+                case sf::Event::Resized:
+                    std::cout << "New width: " << window.getSize().x << '\n'
+                              << "New height: " << window.getSize().y << '\n';
+                    break;
+                case sf::Event::KeyPressed:
+                    std::cout << "Received key " << (e.key.code == sf::Keyboard::X ? "X" : "(other)") << "\n";
+                    break;
+                default:
+                    break;
             }
         }
-        using namespace std::chrono_literals;
-        std::this_thread::sleep_for(300ms);
 
-        window.clear();
+        window.clear(sf::Color::Green);
+
+        int enemiesCount = 5;
+        Enemy** enemies = enemyRow1.getEnemies();
+
+        player.loop(enemies, enemiesCount, enemyRow1);
+
+        window.draw(player.getSprite());
+        for (int i = 0; i < enemiesCount; i++) {
+            window.draw(enemies[i]->getSprite());
+        }
+
+        Bullet* bullets = player.getBullets();
+        for (int i = 0; i < player.getBulletCount(); i++) {
+            window.draw(bullets[i].getSprite());
+        }
+
         window.display();
     }
 
