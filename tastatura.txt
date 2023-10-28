@@ -1,0 +1,5 @@
+Tasta W-sus
+Tasta A-stanga
+Tasta S-jos
+Tasta D-dreapta
+Tasta SPACE-nava trage gloantele
