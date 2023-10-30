@@ -43,7 +43,7 @@ int main() {
             }
         }
 
-        window.clear(sf::Color::Green);
+        window.clear(sf::Color::Black);
 
         int enemiesCount = 5;
         Enemy** enemies = enemyRow1.getEnemies();
