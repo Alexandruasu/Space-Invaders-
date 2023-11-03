@@ -11,8 +11,7 @@ Player::Player() {
     shootingCooldown = 0;
     velocity = sf::Vector2f(0.0f, 0.0f);
     bullets = std::vector<Bullet>();
-    texture.loadFromFile("./Assets/Textures/Player.png");
-    sprite.setTexture(texture);
+    texture = sf::Texture();
     sprite.setPosition({ 400.0f, 500.0f });
 }
 
@@ -41,6 +40,7 @@ std::ostream& operator<<(std::ostream& out, const Player& player) {
 Player::Player(const Player& other) {
     std::cout << "Player copy constructor \n";
 
+    shootingCooldown = other.shootingCooldown;
     health = other.health;
     damage = other.damage;
     xSpeed = other.xSpeed;
@@ -53,16 +53,33 @@ void Player::shoot() {
     std::cout << "Player::shoot()\n";
 
     sf::Vector2f pos = sprite.getPosition();
-    pos.x += 59.0f;
-    pos.y -= 30.0f;
-    Bullet bullet = Bullet(pos);
+
+    sf::Vector2f pos1 = pos;
+    pos1.x += 59.0f;
+    pos1.y -= 30.0f;
+
+    sf::Vector2f pos2 = pos;
+    pos2.x += 29.0f;
+    pos2.y -= 30.0f;
+
+    sf::Vector2f pos3 = pos;
+    pos3.x += 89.0f;
+    pos3.y -= 30.0f;
+
+    Bullet bullet = Bullet(pos1);
     bullets.push_back(bullet);
+
+    Bullet bullet2 = Bullet(pos2);
+    bullets.push_back(bullet2);
+
+    Bullet bullet3 = Bullet(pos3);
+    bullets.push_back(bullet3);
 }
 
-void Player::loop(Enemy** enemies, int enemyCount, EnemyRow row) {
+void Player::loop(Enemy* enemies, int enemyCount) {
     move();
     handleShooting();
-    handleBulletsCollision(enemies, enemyCount, row);
+    handleBulletsCollision(enemies, enemyCount);
     shootingCooldown++;
     for (int i = 0; i < (int)bullets.size(); i++) {
         if (bullets[i].checkCollision()) {
@@ -74,6 +91,11 @@ void Player::loop(Enemy** enemies, int enemyCount, EnemyRow row) {
     sprite.move(velocity);
 }
 
+void Player::setTexture(const sf::Texture& texture_) {
+    texture = texture_;
+    sprite.setTexture(texture);
+}
+
 void Player::handleShooting() {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space) && shootingCooldown > 20) {
         shoot();
@@ -81,7 +103,7 @@ void Player::handleShooting() {
     }
 }
 
-void Player::handleBulletsCollision(Enemy** enemies, int enemyCount, EnemyRow row) {
+void Player::handleBulletsCollision(Enemy* enemies, int enemyCount) {
     int bulletCount = getBulletCount();
 
     for (int i = 0; i < bulletCount; i++) {
@@ -89,17 +111,16 @@ void Player::handleBulletsCollision(Enemy** enemies, int enemyCount, EnemyRow ro
         sf::FloatRect bulletHitbox = currentBullet.getSprite().getGlobalBounds();
 
         for (int j = 0; j < enemyCount; j++) {
-            Enemy* currentEnemy = enemies[j];
-            sf::FloatRect enemyHitbox = currentEnemy->getSprite().getGlobalBounds();
+            sf::FloatRect enemyHitbox = enemies[j].getSprite().getGlobalBounds();
 
             if (bulletHitbox.intersects(enemyHitbox)) {
-                float enemyHp = currentEnemy->getHealth();
-                enemyHp -= currentBullet.getDamage();
-                if (enemyHp <= 0.0f) {
-                    row.killEnemy(j);
-                }
-                currentEnemy->setHealth(enemyHp);
                 bullets.erase(bullets.begin() + i);
+                float enemyHp = enemies[j].getHealth();
+                std::cout << enemyHp;
+                enemyHp -= currentBullet.getDamage();
+                if (enemyHp <= 0.0f)
+                    enemies[j].die();
+                enemies[j].setHealth(enemyHp);
             }
         }
     }

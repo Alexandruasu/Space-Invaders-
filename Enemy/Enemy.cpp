@@ -1,16 +1,17 @@
 
 
 #include "Enemy.h"
+#include <iostream>
 
 Enemy::Enemy() {
-    health = 20.0f;
-    texture.loadFromFile("./Assets/Textures/Enemy.png");
-    sprite.setTexture(texture);
+    isAlive = true;
+    health = 70.0f;
     sprite.setPosition({ 30.0f, 30.0f });
 }
 
 Enemy::Enemy(float x, float y) {
-    health = 20.0f;
+    isAlive = true;
+    health = 70.0f;
     texture.loadFromFile("./Assets/Textures/Enemy.png");
     sprite.setTexture(texture);
     sprite.setPosition({ x, y });
@@ -21,6 +22,11 @@ std::ostream& operator<<(std::ostream& out, const Enemy& enemy) {
     return out;
 }
 
+void Enemy::setTexture(const sf::Texture& texture_) {
+    texture = texture_;
+    sprite.setTexture(texture);
+}
+
 void Enemy::die() {
-    sprite.setPosition({0.0f, -300.0f});
+    sprite = sf::Sprite();
 }

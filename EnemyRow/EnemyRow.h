@@ -8,13 +8,15 @@
 
 class EnemyRow {
 private:
-    Enemy* enemies[5];
+    Enemy enemies[5];
     int xPos;
     int yPos;
 public:
     EnemyRow();
-    EnemyRow(float y);
-    Enemy** getEnemies() { return &enemies[0]; }
+    explicit EnemyRow(float y);
+    friend std::ostream& operator<<(std::ostream& out, const EnemyRow& enemyRow);
+    Enemy* getEnemies() { return &enemies[0]; }
+    int getEnemyCount() const { return 5; }
     void killEnemy(int j);
 };
 

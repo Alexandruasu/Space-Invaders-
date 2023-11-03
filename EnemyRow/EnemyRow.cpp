@@ -8,14 +8,15 @@ EnemyRow::EnemyRow() {
 
 EnemyRow::EnemyRow(float y) {
     xPos = 10.0f;
-    yPos = y;
-    float offset = (800 - 20) / 5;
-    for (int i = 0; i < 5; i++) {
-        enemies[i] = new Enemy(xPos, yPos);
-        xPos += offset;
+    yPos = (int)y;
+    float offset = (float)(800 - 20) / 5;
+    for (auto & enemie : enemies) {
+        enemie = Enemy((float)xPos, (float)yPos);
+        xPos += (int)offset;
     }
 }
 
-void EnemyRow::killEnemy(int j) {
-    enemies[j]->die();
+std::ostream& operator<<(std::ostream& out, const EnemyRow& enemyRow) {
+    out << "xPos: " << enemyRow.xPos << "| yPos: " << enemyRow.yPos << '\n';
+    return out;
 }
