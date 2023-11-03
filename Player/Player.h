@@ -9,15 +9,15 @@
 
 class Player {
 private:
-    float health;
-    float damage;
-    float xSpeed;
-    float ySpeed;
+    float health{};
+    float damage{};
+    float xSpeed{};
+    float ySpeed{};
     int shootingCooldown{};
-    sf::Vector2f velocity;
-    sf::Sprite sprite;
-    sf::Texture texture;
-    std::vector<Bullet> bullets;
+    sf::Vector2f velocity{};
+    sf::Sprite sprite{};
+    sf::Texture texture{};
+    std::vector<Bullet> bullets{};
 public:
     Player();
     ~Player();

@@ -26,7 +26,7 @@ void Bullet::update() {
     sprite.move(velocity);
 }
 
-bool Bullet::checkCollision() {
+bool Bullet::checkCollision() const {
     if (position.y < 0) {
         return true;
     }

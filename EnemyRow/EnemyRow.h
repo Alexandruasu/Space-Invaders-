@@ -9,8 +9,8 @@
 class EnemyRow {
 private:
     Enemy enemies[5];
-    int xPos;
-    int yPos;
+    int xPos{};
+    int yPos{};
 public:
     EnemyRow();
     explicit EnemyRow(float y);
