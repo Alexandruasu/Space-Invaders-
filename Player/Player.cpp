@@ -2,14 +2,13 @@
 
 #include <iostream>
 
-Player::Player() {
+Player::Player() : velocity({0.0f, 0.0f}) {
     std::cout << "Player constructor \n";
     health = 100.0f;
     damage = 10.0f;
     xSpeed = 4.0f;
     ySpeed = 3.0f;
     shootingCooldown = 0;
-    velocity = sf::Vector2f(0.0f, 0.0f);
     bullets = std::vector<Bullet>();
     texture = sf::Texture();
     sprite.setPosition({ 400.0f, 500.0f });
@@ -28,6 +27,7 @@ Player& Player::operator=(const Player& other) {
     ySpeed = other.ySpeed;
     texture = other.texture;
     sprite = other.sprite;
+    shootingCooldown = other.shootingCooldown;
 
     return *this;
 }

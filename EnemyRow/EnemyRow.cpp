@@ -1,12 +1,12 @@
 
 #include "EnemyRow.h"
 
-EnemyRow::EnemyRow() {
-    pos = { 0.0f, 0.0f };
+EnemyRow::EnemyRow() : pos({0.0f, 0.0f}) {
+    enemies = std::array<Enemy, 5>();
 }
 
-EnemyRow::EnemyRow(float y) {
-    pos = { 10.0f, y };
+EnemyRow::EnemyRow(float y) : pos({ 10.0f, y }) {
+    enemies = std::array<Enemy, 5>();
     float offset = (800.0f - 20.0f) / 5.0f;
     for (auto & enemy : enemies) {
         enemy = Enemy(pos);
