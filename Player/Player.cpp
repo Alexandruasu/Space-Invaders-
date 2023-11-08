@@ -2,15 +2,13 @@
 
 #include <iostream>
 
-Player::Player() : velocity({0.0f, 0.0f}) {
+Player::Player() : velocity({0.0f, 0.0f}), texture(sf::Texture()), bullets(std::vector<Bullet>()) {
     std::cout << "Player constructor \n";
     health = 100.0f;
     damage = 10.0f;
     xSpeed = 4.0f;
     ySpeed = 3.0f;
     shootingCooldown = 0;
-    bullets = std::vector<Bullet>();
-    texture = sf::Texture();
     sprite.setPosition({ 400.0f, 500.0f });
 }
 
