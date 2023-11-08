@@ -8,9 +8,10 @@
 
 class EnemyRow {
 private:
-    Enemy enemies[5];
-    int xPos{};
-    int yPos{};
+    std::array<Enemy, 5> enemies;
+    sf::Vector2f pos;
+//    int xPos;
+//    int yPos;
 public:
     EnemyRow();
     explicit EnemyRow(float y);

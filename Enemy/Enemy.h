@@ -8,13 +8,13 @@
 
 class Enemy {
 private:
-    float health{};
-    sf::Sprite sprite{};
-    sf::Texture texture{};
-    bool isAlive{};
+    float health;
+    sf::Sprite sprite;
+    sf::Texture texture;
+    bool isAlive;
 public:
     Enemy();
-    Enemy(float x, float y);
+    explicit Enemy(sf::Vector2f pos_);
     friend std::ostream& operator<<(std::ostream& out, const Enemy& enemy);
     void setTexture(const sf::Texture& texture_);
     sf::Sprite getSprite() { return sprite; }

@@ -9,12 +9,12 @@ Enemy::Enemy() {
     sprite.setPosition({ 30.0f, 30.0f });
 }
 
-Enemy::Enemy(float x, float y) {
+Enemy::Enemy(sf::Vector2f pos_) {
     isAlive = true;
     health = 70.0f;
     texture.loadFromFile("./Assets/Textures/Enemy.png");
     sprite.setTexture(texture);
-    sprite.setPosition({ x, y });
+    sprite.setPosition(pos_);
 }
 
 std::ostream& operator<<(std::ostream& out, const Enemy& enemy) {

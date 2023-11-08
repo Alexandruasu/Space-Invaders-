@@ -37,16 +37,8 @@ std::ostream& operator<<(std::ostream& out, const Player& player) {
     return out;
 }
 
-Player::Player(const Player& other) {
+Player::Player(const Player& other) : health(other.health), damage(other.damage), xSpeed(other.xSpeed), ySpeed(other.ySpeed), shootingCooldown(other.shootingCooldown), sprite(other.sprite), texture(other.texture) {
     std::cout << "Player copy constructor \n";
-
-    shootingCooldown = other.shootingCooldown;
-    health = other.health;
-    damage = other.damage;
-    xSpeed = other.xSpeed;
-    ySpeed = other.ySpeed;
-    texture = other.texture;
-    sprite = other.sprite;
 }
 
 void Player::shoot() {
@@ -74,6 +66,12 @@ void Player::shoot() {
 
     Bullet bullet3 = Bullet(pos3);
     bullets.push_back(bullet3);
+}
+
+void Player::drawBullets(sf::RenderWindow& window) {
+    for (auto bullet : bullets) {
+        window.draw(bullet.getSprite());
+    }
 }
 
 void Player::loop(Enemy* enemies, int enemyCount) {
@@ -104,7 +102,7 @@ void Player::handleShooting() {
 }
 
 void Player::handleBulletsCollision(Enemy* enemies, int enemyCount) {
-    int bulletCount = getBulletCount();
+    int bulletCount = (int)bullets.size();
 
     for (int i = 0; i < bulletCount; i++) {
         Bullet currentBullet = bullets[i];

@@ -1,12 +1,12 @@
-#define PLAYER_TEXTURE "./Assets/Textures/Player.png"
-#define ENEMY_TEXTURE "./Assets/Textures/Enemy.png"
-
 #include "Game.h"
+
+const std::string PLAYER_TEXTURE = "./Assets/Textures/Player.png";
+const std::string ENEMY_TEXTURE = "./Assets/Textures/Enemy.png";
 
 Game::Game() {
     window.create(sf::VideoMode(800, 600), "Space Invaders", sf::Style::Default);
     window.setFramerateLimit(60);
-    textures = std::vector<sf::Texture>();
+    textures = std::map<std::string, sf::Texture>();
 
     sf::Texture playerTexture = sf::Texture();
     playerTexture.loadFromFile(PLAYER_TEXTURE);
@@ -14,17 +14,17 @@ Game::Game() {
     sf::Texture enemyTexture = sf::Texture();
     enemyTexture.loadFromFile(ENEMY_TEXTURE);
 
-    textures.push_back(playerTexture);
-    textures.push_back(enemyTexture);
+    textures["player"] = playerTexture;
+    textures["enemy"] = enemyTexture;
 
     player = Player();
-    player.setTexture(textures[0]);
+    player.setTexture(textures["player"]);
 
     EnemyRow enemyRow1 = EnemyRow(20.0f);
     enemyRows.push_back(enemyRow1);
     Enemy* rowEnemies = enemyRows[0].getEnemies();
     for (int i = 0; i < enemyRows[0].getEnemyCount(); i++) {
-        rowEnemies[i].setTexture(textures[1]);
+        rowEnemies[i].setTexture(textures["enemy"]);
         enemies.push_back(rowEnemies[i]);
     }
 }
@@ -58,10 +58,11 @@ void Game::run() {
             window.draw(enemy.getSprite());
         }
 
-        Bullet* bullets = player.getBullets();
-        for (int i = 0; i < player.getBulletCount(); i++) {
-            window.draw(bullets[i].getSprite());
-        }
+//        Bullet* bullets = player.getBullets();
+//        for (int i = 0; i < player.getBulletCount(); i++) {
+//            window.draw(bullets[i].getSprite());
+//        }
+        player.drawBullets(window);
 
         window.display();
     }

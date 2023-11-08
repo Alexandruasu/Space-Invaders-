@@ -21,6 +21,37 @@ std::ostream& operator<<(std::ostream& os, const Bullet& bullet) {
     return os;
 }
 
+Bullet::Bullet() {
+    damage = 10.0f;
+    position = { 0.0f, 0.0f };
+    velocity = sf::Vector2f(0.0f, -5.0f);
+    texture = new sf::Texture();
+    texture->loadFromFile("./Assets/Textures/Bullet.png");
+    sprite.setTexture(*texture);
+    sprite.setPosition(position);
+}
+
+Bullet::Bullet(const Bullet& obj) : damage{obj.damage}, position{obj.position},velocity{obj.velocity}, sprite{obj.sprite}, texture{obj.texture} {
+    std::cout << "operator copiere Bullet";
+}
+
+Bullet::~Bullet() {
+    std::cout << "destructor Bullet";
+}
+
+Bullet& Bullet::operator=(const Bullet& obj) {
+    damage = obj.damage;
+    position = obj.position;
+    velocity = obj.velocity;
+    sprite = sf::Sprite();
+    texture = new sf::Texture();
+    texture = obj.texture;
+//    texture->loadFromFile("./Assets/Textures/Bullet.png");
+    sprite.setTexture(*texture);
+    sprite.setPosition(position);
+    return *this;
+}
+
 void Bullet::update() {
     position += velocity;
     sprite.move(velocity);
