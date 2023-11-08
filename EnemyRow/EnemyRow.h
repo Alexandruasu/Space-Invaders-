@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../Enemy/Enemy.h"
+#include <array>
 
 #ifndef OOP_ENEMYROW_H
 #define OOP_ENEMYROW_H
