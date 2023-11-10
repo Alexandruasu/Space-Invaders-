@@ -1,5 +1,3 @@
-
-
 #include "Enemy.h"
 #include <iostream>
 
@@ -17,11 +15,10 @@ Enemy::Enemy(sf::Vector2f pos_) {
     sprite.setPosition(pos_);
 }
 
-Enemy::Enemy(const Enemy& other) {
+Enemy::Enemy(const Enemy& other) : sprite(other.sprite), texture(other.texture) {
     isAlive = other.isAlive;
     health = other.health;
-    texture = other.texture;
-    sprite = other.sprite;
+
     sprite.setTexture(texture);
 }
 

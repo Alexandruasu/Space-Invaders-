@@ -27,6 +27,7 @@ Player& Player::operator=(const Player& other) {
     texture = other.texture;
     sprite = other.sprite;
     shootingCooldown = other.shootingCooldown;
+    bulletTexture = other.bulletTexture;
 
     return *this;
 }
@@ -42,7 +43,6 @@ Player::Player(const Player& other) : health(other.health), damage(other.damage)
 }
 
 void Player::setBulletTexture(sf::Texture& texture_) {
-//    bulletTexture = new sf::Texture();
     bulletTexture = &texture_;
 }
 

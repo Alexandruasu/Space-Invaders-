@@ -10,7 +10,6 @@ class Game {
 private:
     Player player;
     std::map<std::string, sf::Texture> textures;
-//    std::vector<EnemyRow> enemyRows;
     std::vector<float> rowsHeights;
     std::vector<Enemy> enemies;
     sf::RenderWindow window;
