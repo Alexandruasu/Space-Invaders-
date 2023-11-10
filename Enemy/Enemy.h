@@ -15,8 +15,10 @@ private:
 public:
     Enemy();
     explicit Enemy(sf::Vector2f pos_);
+    Enemy(const Enemy& other);
     friend std::ostream& operator<<(std::ostream& out, const Enemy& enemy);
     void setTexture(const sf::Texture& texture_);
+    void setPosition(sf::Vector2f pos_);
     sf::Sprite getSprite() { return sprite; }
     float getHealth() const { return health; }
     void setHealth(float hp) { health = hp; }

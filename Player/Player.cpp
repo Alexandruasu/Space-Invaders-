@@ -9,6 +9,7 @@ Player::Player() : velocity({0.0f, 0.0f}), texture(sf::Texture()), bullets(std::
     xSpeed = 4.0f;
     ySpeed = 3.0f;
     shootingCooldown = 0;
+    bulletTexture = new sf::Texture();
     sprite.setPosition({ 400.0f, 500.0f });
 }
 
@@ -36,7 +37,13 @@ std::ostream& operator<<(std::ostream& out, const Player& player) {
 }
 
 Player::Player(const Player& other) : health(other.health), damage(other.damage), xSpeed(other.xSpeed), ySpeed(other.ySpeed), shootingCooldown(other.shootingCooldown), sprite(other.sprite), texture(other.texture) {
+    bulletTexture = new sf::Texture();
     std::cout << "Player copy constructor \n";
+}
+
+void Player::setBulletTexture(sf::Texture& texture_) {
+//    bulletTexture = new sf::Texture();
+    bulletTexture = &texture_;
 }
 
 void Player::shoot() {
@@ -56,13 +63,13 @@ void Player::shoot() {
     pos3.x += 89.0f;
     pos3.y -= 30.0f;
 
-    Bullet bullet = Bullet(pos1);
+    Bullet bullet = Bullet(pos1, bulletTexture);
     bullets.push_back(bullet);
 
-    Bullet bullet2 = Bullet(pos2);
+    Bullet bullet2 = Bullet(pos2, bulletTexture);
     bullets.push_back(bullet2);
 
-    Bullet bullet3 = Bullet(pos3);
+    Bullet bullet3 = Bullet(pos3, bulletTexture);
     bullets.push_back(bullet3);
 }
 

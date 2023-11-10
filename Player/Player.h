@@ -5,7 +5,6 @@
 
 #include "../Bullet/Bullet.h"
 #include "../Enemy/Enemy.h"
-#include "../EnemyRow/EnemyRow.h"
 
 class Player {
 private:
@@ -18,6 +17,7 @@ private:
     sf::Sprite sprite;
     sf::Texture texture;
     std::vector<Bullet> bullets;
+    sf::Texture *bulletTexture;
 public:
     Player();
     ~Player();
@@ -25,6 +25,7 @@ public:
     Player(const Player& other);
     friend std::ostream& operator<<(std::ostream& out, const Player& player);
     void shoot();
+    void setBulletTexture(sf::Texture& texture_);
     void setTexture(const sf::Texture& texture_);
     void handleShooting();
     void handleBulletsCollision(Enemy* enemies, int enemyCount);

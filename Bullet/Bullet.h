@@ -11,7 +11,7 @@ private:
     sf::Sprite sprite;
     sf::Texture* texture;
 public:
-    explicit Bullet(sf::Vector2f position_);
+    explicit Bullet(sf::Vector2f position_, sf::Texture *texture_);
     friend std::ostream& operator<<(std::ostream& os, const Bullet& bullet);
     sf::Sprite getSprite() { return sprite; }
     void update();

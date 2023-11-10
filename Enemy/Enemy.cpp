@@ -17,6 +17,18 @@ Enemy::Enemy(sf::Vector2f pos_) {
     sprite.setPosition(pos_);
 }
 
+Enemy::Enemy(const Enemy& other) {
+    isAlive = other.isAlive;
+    health = other.health;
+    texture = other.texture;
+    sprite = other.sprite;
+    sprite.setTexture(texture);
+}
+
+void Enemy::setPosition(sf::Vector2f pos_) {
+    sprite.setPosition(pos_);
+}
+
 std::ostream& operator<<(std::ostream& out, const Enemy& enemy) {
     out << "Health: " << enemy.health << "\n";
     return out;
