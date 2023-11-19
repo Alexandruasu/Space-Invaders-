@@ -8,10 +8,10 @@
 
 class Game {
 private:
-    Player player;
+    Player *player;
     std::map<std::string, sf::Texture> textures;
     std::vector<float> rowsHeights;
-    std::vector<Enemy> enemies;
+    std::vector<Enemy*> enemies;
     sf::RenderWindow window;
 public:
     Game();

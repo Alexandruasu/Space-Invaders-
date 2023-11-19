@@ -1,8 +1,22 @@
 #include "Player.h"
 
 #include <iostream>
+#include <vector>
 
-Player::Player() : velocity({0.0f, 0.0f}), texture(sf::Texture()), bullets(std::vector<Bullet>()) {
+Player::Player() {
+    std::cout << "Player default constructor \n";
+    health = 100.0f;
+    damage = 10.0f;
+    xSpeed = 4.0f;
+    ySpeed = 3.0f;
+    shootingCooldown = 0;
+    bulletTexture = new sf::Texture();
+    setTexture(new sf::Texture());
+    setVelocity({ 0.0f, 0.0f });
+    setPosition({ 400.0f, 500.0f });
+}
+
+Player::Player(sf::Texture* texture) : bullets(std::vector<Bullet*>()) {
     std::cout << "Player constructor \n";
     health = 100.0f;
     damage = 10.0f;
@@ -10,7 +24,9 @@ Player::Player() : velocity({0.0f, 0.0f}), texture(sf::Texture()), bullets(std::
     ySpeed = 3.0f;
     shootingCooldown = 0;
     bulletTexture = new sf::Texture();
-    sprite.setPosition({ 400.0f, 500.0f });
+    setTexture(texture);
+    setVelocity({ 0.0f, 0.0f });
+    setPosition({ 400.0f, 500.0f });
 }
 
 Player::~Player() {
@@ -20,14 +36,14 @@ Player::~Player() {
 Player& Player::operator=(const Player& other) {
     std::cout << "Player assignment operator \n";
 
-    health = other.health;
-    damage = other.damage;
-    xSpeed = other.xSpeed;
-    ySpeed = other.ySpeed;
-    texture = other.texture;
-    sprite = other.sprite;
-    shootingCooldown = other.shootingCooldown;
-    bulletTexture = other.bulletTexture;
+    if (this == &other) {
+        health = other.health;
+        damage = other.damage;
+        xSpeed = other.xSpeed;
+        ySpeed = other.ySpeed;
+        shootingCooldown = other.shootingCooldown;
+        bulletTexture = other.bulletTexture;
+    }
 
     return *this;
 }
@@ -37,7 +53,7 @@ std::ostream& operator<<(std::ostream& out, const Player& player) {
     return out;
 }
 
-Player::Player(const Player& other) : health(other.health), damage(other.damage), xSpeed(other.xSpeed), ySpeed(other.ySpeed), shootingCooldown(other.shootingCooldown), sprite(other.sprite), texture(other.texture) {
+Player::Player(const Player& other) : Entity(other), health(other.health), damage(other.damage), xSpeed(other.xSpeed), ySpeed(other.ySpeed), shootingCooldown(other.shootingCooldown) {
     bulletTexture = new sf::Texture();
     std::cout << "Player copy constructor \n";
 }
@@ -49,7 +65,7 @@ void Player::setBulletTexture(sf::Texture& texture_) {
 void Player::shoot() {
     std::cout << "Player::shoot()\n";
 
-    sf::Vector2f pos = sprite.getPosition();
+    sf::Vector2f pos = getSprite().getPosition();
 
     sf::Vector2f pos1 = pos;
     pos1.x += 59.0f;
@@ -63,40 +79,30 @@ void Player::shoot() {
     pos3.x += 89.0f;
     pos3.y -= 30.0f;
 
-    Bullet bullet = Bullet(pos1, bulletTexture);
-    bullets.push_back(bullet);
-
-    Bullet bullet2 = Bullet(pos2, bulletTexture);
-    bullets.push_back(bullet2);
-
-    Bullet bullet3 = Bullet(pos3, bulletTexture);
-    bullets.push_back(bullet3);
+    bullets.push_back(new Bullet(pos1, bulletTexture));
+    bullets.push_back(new Bullet(pos2, bulletTexture));
+    bullets.push_back(new Bullet(pos3, bulletTexture));
 }
 
 void Player::drawBullets(sf::RenderWindow& window) {
     for (auto bullet : bullets) {
-        window.draw(bullet.getSprite());
+        window.draw(bullet->getSprite());
     }
 }
 
-void Player::loop(Enemy* enemies, int enemyCount) {
+void Player::loop(std::vector<Enemy*>& enemies) {
     move();
     handleShooting();
-    handleBulletsCollision(enemies, enemyCount);
+    handleBulletsCollision(enemies);
     shootingCooldown++;
     for (int i = 0; i < (int)bullets.size(); i++) {
-        if (bullets[i].checkCollision()) {
+        if (bullets[i]->checkCollision()) {
             bullets.erase(bullets.begin() + i);
         }
-        bullets[i].update();
+        bullets[i]->update();
     }
 
-    sprite.move(velocity);
-}
-
-void Player::setTexture(const sf::Texture& texture_) {
-    texture = texture_;
-    sprite.setTexture(texture);
+    moveSprite(getVelocity());
 }
 
 void Player::handleShooting() {
@@ -106,30 +112,36 @@ void Player::handleShooting() {
     }
 }
 
-void Player::handleBulletsCollision(Enemy* enemies, int enemyCount) {
-    int bulletCount = (int)bullets.size();
+void Player::handleBulletsCollision(std::vector<Enemy*>& enemies) {
+    for (int i = (int)bullets.size() - 1; i >= 0; i--) {
+        Bullet *currentBullet = bullets[i];
+        sf::FloatRect bulletHitbox = currentBullet->getSprite().getGlobalBounds();
 
-    for (int i = 0; i < bulletCount; i++) {
-        Bullet currentBullet = bullets[i];
-        sf::FloatRect bulletHitbox = currentBullet.getSprite().getGlobalBounds();
-
-        for (int j = 0; j < enemyCount; j++) {
-            sf::FloatRect enemyHitbox = enemies[j].getSprite().getGlobalBounds();
+        for (int j = 0; j < (int)enemies.size(); j++) {
+            sf::FloatRect enemyHitbox = enemies[j]->getSprite().getGlobalBounds();
 
             if (bulletHitbox.intersects(enemyHitbox)) {
+                float bulletDamage = currentBullet->getDamage();
+                delete bullets[i];
                 bullets.erase(bullets.begin() + i);
-                float enemyHp = enemies[j].getHealth();
+                float enemyHp = enemies[j]->getHealth();
                 std::cout << enemyHp;
-                enemyHp -= currentBullet.getDamage();
-                if (enemyHp <= 0.0f)
-                    enemies[j].die();
-                enemies[j].setHealth(enemyHp);
+                enemyHp -= bulletDamage;
+                if (enemyHp <= 0.0f) {
+                    enemies[j]->die();
+                    enemies.erase(enemies.begin() + j);
+                    break;
+                }
+                enemies[j]->setHealth(enemyHp);
+                break;
             }
         }
     }
 }
 
 void Player::move() {
+    auto velocity = getVelocity();
+
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) {
         velocity.x = -xSpeed;
     } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
@@ -162,4 +174,6 @@ void Player::move() {
     if (velocity.y > -0.2f && velocity.y < 0.2f) {
         velocity.y = 0.0f;
     }
+
+    setVelocity(velocity);
 }

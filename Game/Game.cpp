@@ -22,9 +22,8 @@ Game::Game() {
     textures["enemy"] = enemyTexture;
     textures["bullet"] = bulletTexture;
 
-    player = Player();
-    player.setTexture(textures["player"]);
-    player.setBulletTexture(textures["bullet"]);
+    player = new Player(&textures["player"]);
+    player->setBulletTexture(textures["bullet"]);
 
     rowsHeights = std::vector<float>();
 
@@ -41,9 +40,7 @@ void Game::createEnemyRow(int num) {
     float offset = 800.0f / (float)num;
     float x = (offset / 2.0f) - 64.0f;
     for (int i = 0; i < num; i++) {
-        Enemy enemy = Enemy();
-        enemy.setTexture(textures["enemy"]);
-        enemy.setPosition({x + ((float)i * offset), y});
+        auto enemy = new Enemy({x + ((float)i * offset), y}, &textures["enemy"]);
         std:: cout << x + ((float)i * offset) << std::endl;
         enemies.push_back(enemy);
     }
@@ -72,14 +69,15 @@ void Game::run() {
 
         window.clear(sf::Color::Black);
 
-        player.loop(enemies.data(), (int)enemies.size());
+        player->loop(enemies);
 
-        window.draw(player.getSprite());
+        window.draw(player->getSprite());
         for (auto & enemy : enemies) {
-            window.draw(enemy.getSprite());
+            if (enemy->getIsAlive())
+                window.draw(enemy->getSprite());
         }
 
-        player.drawBullets(window);
+        player->drawBullets(window);
 
         window.display();
     }

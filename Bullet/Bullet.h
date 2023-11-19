@@ -1,24 +1,20 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
+#include "../Entity/Entity.h"
 #include <iostream>
 
-class Bullet {
+class Bullet : public Entity {
 private:
     float damage;
-    sf::Vector2f position;
-    sf::Vector2f velocity;
-    sf::Sprite sprite;
-    sf::Texture* texture;
 public:
     explicit Bullet(sf::Vector2f position_, sf::Texture *texture_);
     friend std::ostream& operator<<(std::ostream& os, const Bullet& bullet);
-    sf::Sprite getSprite() { return sprite; }
-    void update();
-    bool checkCollision() const;
+
+    bool checkCollision();
     float getDamage() const { return damage; }
+
     Bullet();
-    ~Bullet();
+    ~Bullet() override;
     Bullet(const Bullet& obj);
     Bullet &operator=(const Bullet &obj);
 };

@@ -1,26 +1,23 @@
 #pragma once
 
+#include "../Entity/Entity.h"
 #include <SFML/Graphics.hpp>
 
 #ifndef OOP_ENEMY_H
 #define OOP_ENEMY_H
 
 
-class Enemy {
+class Enemy : public Entity {
 private:
     float health;
-    sf::Sprite sprite;
-    sf::Texture texture;
     bool isAlive;
 public:
     Enemy();
-    explicit Enemy(sf::Vector2f pos_);
+    explicit Enemy(sf::Vector2f pos_, sf::Texture* texture);
     Enemy(const Enemy& other);
     friend std::ostream& operator<<(std::ostream& out, const Enemy& enemy);
-    void setTexture(const sf::Texture& texture_);
-    void setPosition(sf::Vector2f pos_);
-    sf::Sprite getSprite() { return sprite; }
     float getHealth() const { return health; }
+    bool getIsAlive() const { return isAlive; }
     void setHealth(float hp) { health = hp; }
     void die();
 };
