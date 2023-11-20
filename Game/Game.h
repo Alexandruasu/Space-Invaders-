@@ -15,6 +15,8 @@ private:
     sf::RenderWindow window;
 public:
     Game();
+    Game(const Game& game_) = delete;
+    Game& operator=(const Game& game_) = delete;
     void createEnemyRow(int num);
     void run();
 };

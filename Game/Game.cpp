@@ -41,7 +41,6 @@ void Game::createEnemyRow(int num) {
     float x = (offset / 2.0f) - 64.0f;
     for (int i = 0; i < num; i++) {
         auto enemy = new Enemy({x + ((float)i * offset), y}, &textures["enemy"]);
-        std:: cout << x + ((float)i * offset) << std::endl;
         enemies.push_back(enemy);
     }
     rowsHeights.push_back(y);

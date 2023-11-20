@@ -24,7 +24,7 @@ Bullet::Bullet() {
     setVelocity({0.0f, -5.0f});
 }
 
-Bullet::Bullet(const Bullet& obj) : damage(obj.damage) {
+Bullet::Bullet(const Bullet& obj) : Entity(obj), damage(obj.damage) {
     std::cout << "operator copiere Bullet";
 }
 
