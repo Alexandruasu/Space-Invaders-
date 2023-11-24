@@ -23,8 +23,6 @@ class Entity
         virtual void setVelocity(sf::Vector2f velocity);
 
         friend std::ostream& operator<<(std::ostream& os, const Entity& entity);
-
-        sf::Texture getTexture();
         sf::Sprite& getSprite();
         sf::Vector2f getPosition();
         sf::Vector2f& getVelocity();

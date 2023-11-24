@@ -13,12 +13,14 @@ private:
     std::vector<float> rowsHeights;
     std::vector<Enemy*> enemies;
     sf::RenderWindow window;
+    static int currentLevel;
 public:
     Game();
     Game(const Game& game_) = delete;
     Game& operator=(const Game& game_) = delete;
     void createEnemyRow(int num);
     void run();
+    static void increaseLevel();
 };
 
 

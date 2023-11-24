@@ -4,6 +4,12 @@ const std::string PLAYER_TEXTURE = "./Assets/Textures/Player.png";
 const std::string ENEMY_TEXTURE = "./Assets/Textures/Enemy.png";
 const std::string BULLET_TEXTURE = "./Assets/Textures/Bullet.png";
 
+int Game::currentLevel = 1;
+
+void Game::increaseLevel() {
+    Game::currentLevel++;
+}
+
 Game::Game() {
     window.create(sf::VideoMode(800, 600), "Space Invaders", sf::Style::Default);
     window.setFramerateLimit(60);
@@ -28,14 +34,13 @@ Game::Game() {
     rowsHeights = std::vector<float>();
 
     createEnemyRow(4);
-    createEnemyRow(3);
 }
 
 void Game::createEnemyRow(int num) {
     float y = 20.0f;
     if (!rowsHeights.empty()) {
         auto rows = (float)rowsHeights.size();
-        y += 100.0f * rows;
+        y += 120.0f * rows;
     }
     float offset = 800.0f / (float)num;
     float x = (offset / 2.0f) - 64.0f;
@@ -48,18 +53,16 @@ void Game::createEnemyRow(int num) {
 
 void Game::run() {
     while(window.isOpen()) {
+        if (enemies.empty()) {
+            Game::increaseLevel();
+            break;
+        }
+
         sf::Event e = sf::Event();
         while(window.pollEvent(e)) {
             switch(e.type) {
                 case sf::Event::Closed:
                     window.close();
-                    break;
-                case sf::Event::Resized:
-                    std::cout << "New width: " << window.getSize().x << '\n'
-                              << "New height: " << window.getSize().y << '\n';
-                    break;
-                case sf::Event::KeyPressed:
-                    std::cout << "Received key " << (e.key.code == sf::Keyboard::X ? "X" : "(other)") << "\n";
                     break;
                 default:
                     break;
@@ -79,5 +82,26 @@ void Game::run() {
         player->drawBullets(window);
 
         window.display();
+    }
+
+    if (enemies.empty()) {
+        enemies = std::vector<Enemy*>();
+        rowsHeights = std::vector<float>();
+        
+        switch (Game::currentLevel) {
+            case 2:
+                createEnemyRow(3);
+                createEnemyRow(4);
+                break;
+            case 3:
+                createEnemyRow(4);
+                createEnemyRow(3);
+                createEnemyRow(4);
+                break;
+            default:
+                return;
+        }
+        
+        run();
     }
 }

@@ -13,7 +13,7 @@ Player::Player() {
     bulletTexture = new sf::Texture();
     setTexture(new sf::Texture());
     setVelocity({ 0.0f, 0.0f });
-    setPosition({ 400.0f, 500.0f });
+    setPosition({ 335.0f, 400.0f });
 }
 
 Player::Player(sf::Texture* texture) : bullets(std::vector<Bullet*>()) {
@@ -26,7 +26,7 @@ Player::Player(sf::Texture* texture) : bullets(std::vector<Bullet*>()) {
     bulletTexture = new sf::Texture();
     setTexture(texture);
     setVelocity({ 0.0f, 0.0f });
-    setPosition({ 400.0f, 500.0f });
+    setPosition({ 335.0f, 400.0f });
 }
 
 Player::~Player() {

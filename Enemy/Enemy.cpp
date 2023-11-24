@@ -3,13 +3,13 @@
 
 Enemy::Enemy() {
     isAlive = true;
-    health = 70.0f;
+    health = 30.0f;
     setPosition({ 30.0f, 30.0f });
 }
 
 Enemy::Enemy(sf::Vector2f pos_, sf::Texture* texture) : Entity(*texture, pos_) {
     isAlive = true;
-    health = 70.0f;
+    health = 30.0f;
 }
 
 Enemy::Enemy(const Enemy& other) : Entity(other) {

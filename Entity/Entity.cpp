@@ -54,11 +54,6 @@ void Entity::setVelocity(sf::Vector2f velocity)
     this->velocity = velocity;
 }
 
-sf::Texture Entity::getTexture()
-{
-    return *this->texture;
-}
-
 sf::Sprite& Entity::getSprite()
 {
     return this->sprite;
