@@ -140,40 +140,40 @@ void Player::handleBulletsCollision(std::vector<Enemy*>& enemies) {
 }
 
 void Player::move() {
-    auto velocity = getVelocity();
+    auto velocity_ = getVelocity();
 
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) {
-        velocity.x = -xSpeed;
+        velocity_.x = -xSpeed;
     } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
-        velocity.x = xSpeed;
+        velocity_.x = xSpeed;
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) {
-        velocity.y = -ySpeed;
+        velocity_.y = -ySpeed;
     } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) {
-        velocity.y = ySpeed;
+        velocity_.y = ySpeed;
     }
 
     // decelerate to 0
-    if(velocity.x > 0) {
-        velocity.x -= 0.1f;
-    } else if(velocity.x < 0) {
-        velocity.x += 0.1f;
+    if(velocity_.x > 0) {
+        velocity_.x -= 0.1f;
+    } else if(velocity_.x < 0) {
+        velocity_.x += 0.1f;
     }
 
-    if (velocity.y > 0) {
-        velocity.y -= 0.1f;
-    } else if (velocity.y < 0) {
-        velocity.y += 0.1f;
+    if (velocity_.y > 0) {
+        velocity_.y -= 0.1f;
+    } else if (velocity_.y < 0) {
+        velocity_.y += 0.1f;
     }
 
     // stop at 0
-    if (velocity.x > -0.2f && velocity.x < 0.2f) {
-        velocity.x = 0.0f;
+    if (velocity_.x > -0.2f && velocity_.x < 0.2f) {
+        velocity_.x = 0.0f;
     }
-    if (velocity.y > -0.2f && velocity.y < 0.2f) {
-        velocity.y = 0.0f;
+    if (velocity_.y > -0.2f && velocity_.y < 0.2f) {
+        velocity_.y = 0.0f;
     }
 
-    setVelocity(velocity);
+    setVelocity(velocity_);
 }

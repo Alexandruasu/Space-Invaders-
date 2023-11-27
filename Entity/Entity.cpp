@@ -37,21 +37,21 @@ std::ostream &operator<<(std::ostream &os, const Entity &entity)
     return os;
 }
 
-void Entity::setTexture(sf::Texture* texture)
+void Entity::setTexture(sf::Texture* texture_)
 {
-    this->texture = texture;
+    this->texture = texture_;
     this->sprite.setTexture(*this->texture);
 }
 
-void Entity::setPosition(sf::Vector2f position)
+void Entity::setPosition(sf::Vector2f position_)
 {
-    this->position = position;
+    this->position = position_;
     this->sprite.setPosition(this->position);
 }
 
-void Entity::setVelocity(sf::Vector2f velocity)
+void Entity::setVelocity(sf::Vector2f velocity_)
 {
-    this->velocity = velocity;
+    this->velocity = velocity_;
 }
 
 sf::Sprite& Entity::getSprite()
