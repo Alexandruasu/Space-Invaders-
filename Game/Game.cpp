@@ -82,10 +82,10 @@ void Game::run() {
                 if (entity->getIsAlive()) {
                     entity->draw(window);
 
-                    auto* player = dynamic_cast<Player*>(entity);
-                    if (player != nullptr) {
-                        player->loop(enemies);
-                        player->drawBullets(window);
+                    auto* player_ = dynamic_cast<Player*>(entity);
+                    if (player_ != nullptr) {
+                        player_->loop(enemies);
+                        player_->drawBullets(window);
                         continue;
                     }
 

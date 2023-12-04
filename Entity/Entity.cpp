@@ -39,9 +39,9 @@ std::ostream &operator<<(std::ostream &os, const Entity &entity)
     return os;
 }
 
-void Entity::setIsAlive(bool isAlive)
+void Entity::setIsAlive(bool isAlive_)
 {
-    this->isAlive = isAlive;
+    this->isAlive = isAlive_;
 }
 
 void Entity::setTexture(sf::Texture* texture_)
