@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "../Exceptions/Exceptions.h"
 
 #include <iostream>
 #include <vector>
@@ -7,7 +8,7 @@ Player::Player() {
     std::cout << "Player default constructor \n";
     health = 100.0f;
     damage = 10.0f;
-    xSpeed = 4.0f;
+    xSpeed = 3.0f;
     ySpeed = 3.0f;
     shootingCooldown = 0;
     bulletTexture = new sf::Texture();
@@ -20,7 +21,7 @@ Player::Player(sf::Texture* texture) : bullets(std::vector<Bullet*>()) {
     std::cout << "Player constructor \n";
     health = 100.0f;
     damage = 10.0f;
-    xSpeed = 4.0f;
+    xSpeed = 3.0f;
     ySpeed = 3.0f;
     shootingCooldown = 0;
     bulletTexture = new sf::Texture();
@@ -93,6 +94,7 @@ void Player::drawBullets(sf::RenderWindow& window) {
 void Player::loop(std::vector<Enemy*>& enemies) {
     move();
     handleShooting();
+    handlePlayerCollision(enemies);
     handleBulletsCollision(enemies);
     shootingCooldown++;
     for (int i = 0; i < (int)bullets.size(); i++) {
@@ -109,6 +111,21 @@ void Player::handleShooting() {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space) && shootingCooldown > 20) {
         shoot();
         shootingCooldown = 0;
+    }
+}
+
+void Player::handlePlayerCollision(std::vector<Enemy *> &enemies) {
+    sf::FloatRect playerHitbox = getSprite().getGlobalBounds();
+
+    for (auto & enemy : enemies) {
+        sf::FloatRect enemyHitbox = enemy->getSprite().getGlobalBounds();
+
+        if (playerHitbox.intersects(enemyHitbox)) {
+            health -= 10.0f;
+            if (health <= 0.0f) {
+                throw PlayerOutOfLivesException();
+            }
+        }
     }
 }
 
@@ -129,6 +146,7 @@ void Player::handleBulletsCollision(std::vector<Enemy*>& enemies) {
                 enemyHp -= bulletDamage;
                 if (enemyHp <= 0.0f) {
                     enemies[j]->die();
+                    enemies[j]->setIsAlive(false);
                     enemies.erase(enemies.begin() + j);
                     break;
                 }
@@ -154,7 +172,6 @@ void Player::move() {
         velocity_.y = ySpeed;
     }
 
-    // decelerate to 0
     if(velocity_.x > 0) {
         velocity_.x -= 0.1f;
     } else if(velocity_.x < 0) {
@@ -167,7 +184,6 @@ void Player::move() {
         velocity_.y += 0.1f;
     }
 
-    // stop at 0
     if (velocity_.x > -0.2f && velocity_.x < 0.2f) {
         velocity_.x = 0.0f;
     }

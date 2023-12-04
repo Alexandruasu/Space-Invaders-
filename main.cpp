@@ -11,19 +11,12 @@ int main() {
     XInitThreads();
 #endif
 
-    try {
-        throw CustomException();
-    } catch (const CustomException& e) {
-        std::cout << e.what() << std::endl;
-    }
-    try {
-        throw CustomException2();
-    } catch (const CustomException2& e) {
-        std::cout << e.what() << std::endl;
-    }
-
     Game game = Game();
-    game.run();
 
+    try {
+        game.run();
+    } catch (const MyBaseException& e) {
+        std::cerr << e.what() << std::endl;
+    }
     return 0;
 }

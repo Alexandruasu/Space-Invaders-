@@ -8,6 +8,7 @@
 
 class Game {
 private:
+    std::vector<Entity*> entities;
     Player *player;
     std::map<std::string, sf::Texture> textures;
     std::vector<float> rowsHeights;

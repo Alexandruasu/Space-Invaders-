@@ -1,13 +1,19 @@
-#include <iostream>
 #include <exception>
 #include <string>
 
-class CustomException : public std::exception {
+class MyBaseException : public std::exception {
+public:
+    [[nodiscard]] const char* what() const noexcept override {
+        return "Base exception occurred";
+    }
+};
+
+class PlayerOutOfLivesException : public MyBaseException {
 public:
     [[nodiscard]] const char* what() const noexcept override;
 };
 
-class CustomException2 : public std::exception {
+class InvalidGameStateException : public MyBaseException {
 public:
     [[nodiscard]] const char* what() const noexcept override;
 };

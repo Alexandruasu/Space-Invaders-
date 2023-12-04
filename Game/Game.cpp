@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "../Exceptions/Exceptions.h"
 
 const std::string PLAYER_TEXTURE = "./Assets/Textures/Player.png";
 const std::string ENEMY_TEXTURE = "./Assets/Textures/Enemy.png";
@@ -30,6 +31,8 @@ Game::Game() {
 
     player = new Player(&textures["player"]);
     player->setBulletTexture(textures["bullet"]);
+    player->setIsAlive(true);
+    entities.push_back(player);
 
     rowsHeights = std::vector<float>();
 
@@ -47,61 +50,72 @@ void Game::createEnemyRow(int num) {
     for (int i = 0; i < num; i++) {
         auto enemy = new Enemy({x + ((float)i * offset), y}, &textures["enemy"]);
         enemies.push_back(enemy);
+        entities.push_back(enemy);
     }
     rowsHeights.push_back(y);
 }
 
 void Game::run() {
-    while(window.isOpen()) {
-        if (enemies.empty()) {
-            Game::increaseLevel();
-            break;
+    while (true) {
+        while(window.isOpen()) {
+            if (enemies.empty()) {
+                Game::increaseLevel();
+                break;
+            }
+
+            sf::Event e = sf::Event();
+            while(window.pollEvent(e)) {
+                switch(e.type) {
+                    case sf::Event::Closed:
+                        window.close();
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            window.clear(sf::Color::Black);
+
+            for (Entity* entity : entities) {
+                entity->update();
+
+                if (entity->getIsAlive()) {
+                    entity->draw(window);
+
+                    auto* player = dynamic_cast<Player*>(entity);
+                    if (player != nullptr) {
+                        player->loop(enemies);
+                        player->drawBullets(window);
+                        continue;
+                    }
+
+                    auto* enemy = dynamic_cast<Enemy*>(entity);
+                    if (enemy != nullptr) {
+                        // enemy code here...
+                    }
+                }
+            }
+
+            window.display();
         }
 
-        sf::Event e = sf::Event();
-        while(window.pollEvent(e)) {
-            switch(e.type) {
-                case sf::Event::Closed:
-                    window.close();
-                    break;
+        if (enemies.empty()) {
+            enemies = std::vector<Enemy*>();
+            rowsHeights = std::vector<float>();
+            
+            switch (Game::currentLevel) {
+                case 2:
+                    createEnemyRow(3);
+                    createEnemyRow(4);
+                    continue;
+                case 3:
+                    createEnemyRow(4);
+                    createEnemyRow(3);
+                    createEnemyRow(4);
+                    continue;
                 default:
-                    break;
+                    throw InvalidGameStateException();
             }
         }
-
-        window.clear(sf::Color::Black);
-
-        player->loop(enemies);
-
-        window.draw(player->getSprite());
-        for (auto & enemy : enemies) {
-            if (enemy->getIsAlive())
-                window.draw(enemy->getSprite());
-        }
-
-        player->drawBullets(window);
-
-        window.display();
-    }
-
-    if (enemies.empty()) {
-        enemies = std::vector<Enemy*>();
-        rowsHeights = std::vector<float>();
-        
-        switch (Game::currentLevel) {
-            case 2:
-                createEnemyRow(3);
-                createEnemyRow(4);
-                break;
-            case 3:
-                createEnemyRow(4);
-                createEnemyRow(3);
-                createEnemyRow(4);
-                break;
-            default:
-                return;
-        }
-        
-        run();
     }
 }

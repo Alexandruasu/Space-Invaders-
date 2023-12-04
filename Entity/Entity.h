@@ -10,6 +10,7 @@ class Entity
         sf::Sprite sprite;
         sf::Vector2f position;
         sf::Vector2f velocity;
+        bool isAlive;
 
     public:
         Entity() = default;
@@ -21,11 +22,13 @@ class Entity
         virtual void setTexture(sf::Texture* texture);
         virtual void setPosition(sf::Vector2f position);
         virtual void setVelocity(sf::Vector2f velocity);
+        virtual void setIsAlive(bool isAlive);
 
         friend std::ostream& operator<<(std::ostream& os, const Entity& entity);
         sf::Sprite& getSprite();
         sf::Vector2f getPosition();
         sf::Vector2f& getVelocity();
+        bool getIsAlive() const;
 
         void moveSprite(sf::Vector2f offset);
 

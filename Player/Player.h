@@ -26,6 +26,7 @@ public:
     void setBulletTexture(sf::Texture& texture_);
     void handleShooting();
     void handleBulletsCollision(std::vector<Enemy*>& enemies);
+    void handlePlayerCollision(std::vector<Enemy*>& enemies);
     void loop(std::vector<Enemy*>& enemies);
     void move();
     void drawBullets(sf::RenderWindow& window);

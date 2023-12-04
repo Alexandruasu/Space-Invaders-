@@ -6,6 +6,7 @@ Entity::Entity(sf::Texture& texture, sf::Vector2f position)
     this->sprite.setTexture(*this->texture);
     this->position = position;
     this->sprite.setPosition(this->position);
+    this->isAlive = true;
 }
 
 Entity::Entity(const Entity& obj)
@@ -14,6 +15,7 @@ Entity::Entity(const Entity& obj)
     this->sprite = obj.sprite;
     this->position = obj.position;
     this->velocity = obj.velocity;
+    this->isAlive = obj.isAlive;
 }
 
 Entity& Entity::operator=(const Entity& obj)
@@ -37,6 +39,11 @@ std::ostream &operator<<(std::ostream &os, const Entity &entity)
     return os;
 }
 
+void Entity::setIsAlive(bool isAlive)
+{
+    this->isAlive = isAlive;
+}
+
 void Entity::setTexture(sf::Texture* texture_)
 {
     this->texture = texture_;
@@ -52,6 +59,11 @@ void Entity::setPosition(sf::Vector2f position_)
 void Entity::setVelocity(sf::Vector2f velocity_)
 {
     this->velocity = velocity_;
+}
+
+bool Entity::getIsAlive() const
+{
+    return this->isAlive;
 }
 
 sf::Sprite& Entity::getSprite()

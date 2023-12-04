@@ -1,9 +1,9 @@
 #include "Exceptions.h"
 
-const char* CustomException::what() const noexcept {
-    return "Custom exception";
+const char* PlayerOutOfLivesException::what() const noexcept {
+    return "Player ran out of lives";
 }
 
-const char* CustomException2::what() const noexcept {
-    return "Custom exception 2";
+const char* InvalidGameStateException::what() const noexcept {
+    return "Invalid game state";
 }
