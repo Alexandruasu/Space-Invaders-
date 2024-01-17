@@ -18,7 +18,7 @@ private:
 public:
     Player();
     explicit Player(sf::Texture* texture);
-    ~Player();
+    ~Player() override;
     Player& operator=(const Player& other);
     Player(const Player& other);
     friend std::ostream& operator<<(std::ostream& out, const Player& player);

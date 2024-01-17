@@ -15,7 +15,8 @@ int main() {
 
     try {
         game.run();
-    } catch (const MyBaseException& e) {
+    } catch (const GameError& e) {
+        game.end();
         std::cerr << e.what() << std::endl;
     }
     return 0;

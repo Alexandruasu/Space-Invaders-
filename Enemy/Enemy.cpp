@@ -1,15 +1,10 @@
 #include "Enemy.h"
 #include <iostream>
 
-Enemy::Enemy() {
+Enemy::Enemy() : Entity() {
     isAlive = true;
     health = 30.0f;
     setPosition({ 30.0f, 30.0f });
-}
-
-Enemy::Enemy(sf::Vector2f pos_, sf::Texture* texture) : Entity(*texture, pos_) {
-    isAlive = true;
-    health = 30.0f;
 }
 
 Enemy::Enemy(const Enemy& other) : Entity(other) {
@@ -24,4 +19,11 @@ std::ostream& operator<<(std::ostream& out, const Enemy& enemy) {
 
 void Enemy::die() {
     isAlive = false;
+}
+
+void Enemy::takeDamage(float damage) {
+    health -= damage;
+    if (health <= 0) {
+        die();
+    }
 }

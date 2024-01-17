@@ -44,7 +44,7 @@
   - [x] ierarhie proprie cu baza `std::exception` sau derivată din `std::exception`; minim 2 clase pentru erori specifice
   - [x] utilizare cu sens: de exemplu, `throw` în constructor, `try`/`catch` în `main`
 - [x] funcții și atribute `static`
-- [x] STL
+- [ ] STL
 - [x] cât mai multe `const`
 - [ ] la sfârșit: commit separat cu adăugarea unei noi clase derivate fără a modifica restul codului, pe lângă cele 3 derivate deja adăugate
   - noua derivată nu poate fi una existentă care a fost ștearsă și adăugată din nou

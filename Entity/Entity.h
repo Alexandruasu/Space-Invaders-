@@ -19,10 +19,10 @@ class Entity
         Entity& operator=(const Entity& obj);
         virtual ~Entity() = default;
 
-        virtual void setTexture(sf::Texture* texture);
-        virtual void setPosition(sf::Vector2f position);
-        virtual void setVelocity(sf::Vector2f velocity);
-        virtual void setIsAlive(bool isAlive);
+        void setTexture(sf::Texture* texture);
+        void setPosition(sf::Vector2f position);
+        void setVelocity(sf::Vector2f velocity);
+        void setIsAlive(bool isAlive);
 
         friend std::ostream& operator<<(std::ostream& os, const Entity& entity);
         sf::Sprite& getSprite();
