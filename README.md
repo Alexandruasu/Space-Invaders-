@@ -3,6 +3,7 @@
 #### Space Invaders este un joc video clasic lansat în 1978 de către compania japoneză Taito. Este unul dintre primele jocuri video de tip shoot 'em up și a avut o influență semnificativă asupra industriei jocurilor video.
 #### comenzi:Tasta A-stânga, Tasta S-jos, Tasta W-sus, D-dreapta, SPAȚIU-nava trage gloanțele.
 #### Descriere joc: În acest joc captivant, misiunea navei tale este să elimine extratereștrii care îi stau în cale. Extratereștrii pot distruge nava doar prin ciocnire directă, așa că trebuie să fii vigilent și să-ți folosești abilitățile pentru a evita coliziunile. Pe măsură ce avansezi, dificultatea crește, iar numărul extratereștrilor devine tot mai mare.
+#### Toate sprite-urile sunt făcute de mine.
 ### Tema 0
 
 - [x] Nume proiect (poate fi schimbat ulterior)
