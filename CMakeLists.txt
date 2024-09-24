@@ -178,3 +178,9 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy
         ${CMAKE_SOURCE_DIR}/levels.txt $<TARGET_FILE_DIR:${PROJECT_NAME}>/levels.txt
 )
+
+# Copy levels.txt to the build directory
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+        ${CMAKE_SOURCE_DIR}/levels.txt $<TARGET_FILE_DIR:${PROJECT_NAME}>/levels.txt
+)
