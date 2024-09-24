@@ -165,18 +165,13 @@ endif()
 # update name in .github/workflows/cmake.yml:29 when changing "bin" name here
 install(TARGETS ${PROJECT_NAME} DESTINATION bin)
 install(DIRECTORY Assets DESTINATION bin)
+install(FILES levels.txt DESTINATION bin)
 # install(FILES some_file1.txt some_file2.md DESTINATION bin)
 
 # Copy Assets directory to the build directory
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${CMAKE_SOURCE_DIR}/Assets $<TARGET_FILE_DIR:${PROJECT_NAME}>/Assets
-)
-
-# Copy levels.txt to the build directory
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy
-        ${CMAKE_SOURCE_DIR}/levels.txt $<TARGET_FILE_DIR:${PROJECT_NAME}>/levels.txt
 )
 
 # Copy levels.txt to the build directory
