@@ -166,3 +166,9 @@ endif()
 install(TARGETS ${PROJECT_NAME} DESTINATION bin)
 install(DIRECTORY Assets DESTINATION bin)
 # install(FILES some_file1.txt some_file2.md DESTINATION bin)
+
+# Copy Assets directory to the build directory
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_SOURCE_DIR}/Assets $<TARGET_FILE_DIR:${PROJECT_NAME}>/Assets
+)
