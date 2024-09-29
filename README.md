@@ -1,9 +1,23 @@
-# Space Invaders
+# Space Invaders 
 
-#### Space Invaders este un joc video clasic lansat în 1978 de către compania japoneză Taito. Este unul dintre primele jocuri video de tip shoot 'em up și a avut o influență semnificativă asupra industriei jocurilor video.
-#### comenzi:Tasta A-stânga, Tasta S-jos, Tasta W-sus, D-dreapta, SPAȚIU-nava trage gloanțele.
-#### Descriere joc: În acest joc captivant, misiunea navei tale este să elimine extratereștrii care îi stau în cale. Extratereștrii pot distruge nava doar prin ciocnire directă, așa că trebuie să fii vigilent și să-ți folosești abilitățile pentru a evita coliziunile. Pe măsură ce avansezi, dificultatea crește, iar numărul extratereștrilor devine tot mai mare.
-#### Toate sprite-urile sunt făcute de mine.
+**Space Invaders** is a classic arcade game, originally released in 1978 by Taito. It is one of the first shoot 'em up games and had a major influence on the gaming industry.
+
+## Game Controls:
+- **A** - Move left
+- **S** - Move down
+- **W** - Move up
+- **D** - Move right
+- **SPACE** - Fire bullets
+
+## Game Description:
+In this thrilling game, your mission is to destroy alien invaders. They can only damage your ship through direct collision, so you must remain vigilant and avoid them. As you progress, different types of aliens appear, each with unique behaviors, increasing the challenge and variety of gameplay.
+
+All sprites are custom-made by myself.
+
+### Technologies Used:
+- **C++**
+- **SFML** (Simple and Fast Multimedia Library)
+
 ### Tema 0
 
 - [x] Nume proiect (poate fi schimbat ulterior)
